@@ -10,7 +10,7 @@ interface Tenant {
   thirdPartyKey: string;
 }
 
-interface Log {
+export interface Log {
   groupId: string;
   streamId: string;
   requestId: string;
@@ -19,5 +19,4 @@ interface Log {
 export interface ReqAuxData {
   user: User;
   tenant: Tenant;
-  log: Log;
 }

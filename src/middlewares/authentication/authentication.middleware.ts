@@ -9,13 +9,19 @@ export class AuthenticationMiddleware implements NestMiddleware {
   private readonly logger = new Logger(AuthenticationMiddleware.name);
 
   constructor(
-    private readonly request: RequestService,
+    private readonly reqSvc: RequestService,
     private readonly tenants: TenantsService,
     private readonly configs: ConfigService<Configs>
   ) {}
 
   // in fastify middleware, the req object is the raw node request object
   async use(req: IncomingMessage, res: any, next: () => void) {
+    this.reqSvc.setLogTrace({
+      groupId: 'groupId',
+      streamId: 'streamId',
+      requestId: 'requestId',
+    });
+
     if (this.configs.get('mode') === Mode.local) return next();
 
     try {
@@ -27,7 +33,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
       await this.tenants.ormMethods('tenantId');
       this.logger.verbose('verify the jwt against tenant credentials');
 
-      this.request.setAuxData({
+      this.reqSvc.setAuxData({
         user: {
           token: jwt,
           userPoolId: 'string',
@@ -38,16 +44,10 @@ export class AuthenticationMiddleware implements NestMiddleware {
         tenant: {
           thirdPartyKey: 'thirdPartyKey',
         },
-        log: {
-          groupId: 'groupId',
-          streamId: 'streamId',
-          requestId: 'requestId',
-        },
       });
       return next();
     } catch (err) {
-      this.logger.verbose(err.message);
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(err.message);
     }
   }
 }

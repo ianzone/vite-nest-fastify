@@ -14,7 +14,6 @@ export class AppFilter extends BaseExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const req = host.switchToHttp().getRequest<FastifyRequest>();
     const res = host.switchToHttp().getResponse<FastifyReply>();
-    const { log, ...aux } = this.reqService.getAuxData();
     const ctx = {
       Method: req.method,
       Path: req.url,
@@ -22,7 +21,7 @@ export class AppFilter extends BaseExceptionFilter {
       Query: req.query,
       Headers: req.headers,
       Body: req.body,
-      ReqAuxData: aux,
+      ReqAuxData: this.reqService.getAuxData(),
     };
 
     let statusCode = 500;
@@ -37,6 +36,6 @@ export class AppFilter extends BaseExceptionFilter {
       message = exception.message;
     }
 
-    res.status(statusCode).send({ ...log, message });
+    res.status(statusCode).send({ ...this.reqService.getLogTrace(), message });
   }
 }

@@ -1,6 +1,6 @@
 import { resolve } from 'path';
-import { defineConfig } from 'vite';
 import { VitePluginNode } from 'vite-plugin-node';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   server: {
