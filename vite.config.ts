@@ -16,6 +16,10 @@ export default defineConfig({
       adapter: 'nest',
       appPath: './src/main.ts',
       tsCompiler: 'swc',
+      swcOptions: {
+        sourceMaps: true,
+        minify: true,
+      },
     }),
   ],
   optimizeDeps: {
