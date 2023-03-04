@@ -1,2 +1,3 @@
-ni @nestjs/core @nestjs/common @nestjs/platform-fastify
-ni -D vite vite-plugin-node @swc/core
+pnpm i
+
+pnpm run dev
