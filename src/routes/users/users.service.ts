@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { sleep } from 'src/utils';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -8,7 +9,8 @@ export class UsersService {
     return `This action adds a new user ${JSON.stringify(body, null, 2)}`;
   }
 
-  findAll() {
+  async findAll() {
+    await sleep(2000);
     return `This action returns all users`;
   }
 

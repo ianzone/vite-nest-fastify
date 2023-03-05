@@ -10,6 +10,7 @@ specifiers:
   '@nestjs/testing': ^9.3.9
   '@swc/core': ^1.3.37
   '@types/node': ^18.14.5
+  cache-manager: ^5.1.7
   class-transformer: ^0.5.1
   class-validator: ^0.14.0
   fastify: ^4.14.0
@@ -19,11 +20,12 @@ specifiers:
 
 dependencies:
   '@fastify/static': 6.9.0
-  '@nestjs/common': 9.3.9_welcnyot5bzd5wa2aovbkxpi4i
+  '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
   '@nestjs/config': 2.3.1_jrq2rdgfp2sx67wmylmrqliwxe
   '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
   '@nestjs/platform-fastify': 9.3.9_tdsjr37n247zbypv5fnzqwaj2q
   '@nestjs/swagger': 6.2.1_hawwmshqbw7nw32iema6jhpu5q
+  cache-manager: 5.1.7
   class-transformer: 0.5.1
   class-validator: 0.14.0
   fastify: 4.14.0
@@ -316,7 +318,7 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /@nestjs/common/9.3.9_welcnyot5bzd5wa2aovbkxpi4i:
+  /@nestjs/common/9.3.9_nza3ix4qrkhc5teka4arycjvca:
     resolution: {integrity: sha512-GshTD9Xz+wD2em6NyzU4NXw5IXMUmapgDgD+iuj6XL0258hvDwODmNk37mBBnZvTZlqER+krvIUKnS34etqF/A==}
     peerDependencies:
       cache-manager: <=5
@@ -332,6 +334,7 @@ packages:
       class-validator:
         optional: true
     dependencies:
+      cache-manager: 5.1.7
       class-transformer: 0.5.1
       class-validator: 0.14.0
       iterare: 1.2.1
@@ -347,7 +350,7 @@ packages:
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
-      '@nestjs/common': 9.3.9_welcnyot5bzd5wa2aovbkxpi4i
+      '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
       dotenv: 16.0.3
       dotenv-expand: 10.0.0
       lodash: 4.17.21
@@ -374,7 +377,7 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 9.3.9_welcnyot5bzd5wa2aovbkxpi4i
+      '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
@@ -399,7 +402,7 @@ packages:
       class-validator:
         optional: true
     dependencies:
-      '@nestjs/common': 9.3.9_welcnyot5bzd5wa2aovbkxpi4i
+      '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
       class-transformer: 0.5.1
       class-validator: 0.14.0
       reflect-metadata: 0.1.13
@@ -422,7 +425,7 @@ packages:
       '@fastify/formbody': 7.4.0
       '@fastify/middie': 8.1.0
       '@fastify/static': 6.9.0
-      '@nestjs/common': 9.3.9_welcnyot5bzd5wa2aovbkxpi4i
+      '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
       '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
       fastify: 4.13.0
       light-my-request: 5.8.0
@@ -450,7 +453,7 @@ packages:
         optional: true
     dependencies:
       '@fastify/static': 6.9.0
-      '@nestjs/common': 9.3.9_welcnyot5bzd5wa2aovbkxpi4i
+      '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
       '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
       '@nestjs/mapped-types': 1.2.2_sm5si6oczf3vcbfl6qa276t67m
       class-transformer: 0.5.1
@@ -475,7 +478,7 @@ packages:
       '@nestjs/platform-express':
         optional: true
     dependencies:
-      '@nestjs/common': 9.3.9_welcnyot5bzd5wa2aovbkxpi4i
+      '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
       '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
       tslib: 2.5.0
     dev: true
@@ -779,6 +782,12 @@ packages:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
     dev: true
+
+  /cache-manager/5.1.7:
+    resolution: {integrity: sha512-2W43F4ruaYb7dSiCOqkKtpnmn51/3DqxbKMMTxHfLa6qtj1letd8rr17/P/c7D7wYViqQLa+LetLCoKSVwBN1w==}
+    dependencies:
+      lodash.clonedeep: 4.5.0
+      lru-cache: 7.18.2
 
   /chai/4.3.7:
     resolution: {integrity: sha512-HLnAzZ2iupm25PlN0xFreAlBA5zaBSv3og0DdeGA4Ar6h6rJ3A0rolRUKJhSF2V10GZKDgWF/VmAEsNWjCRB+A==}
@@ -1176,6 +1185,9 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
+  /lodash.clonedeep/4.5.0:
+    resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
+
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
@@ -1192,6 +1204,10 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: false
+
+  /lru-cache/7.18.2:
+    resolution: {integrity: sha512-KytVYmZ3reaw/f3d7GCISvWWjTYxszNdvD5rDvm/zECga3eSWzryRY7iauJsjo6aaw03lHYTSNTk7lW83Bv+zQ==}
+    engines: {node: '>=12'}
 
   /mime/3.0.0:
     resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}

@@ -1,8 +1,11 @@
 import {
   Body,
+  CACHE_MANAGER,
   Controller,
   Delete,
   Get,
+  Inject,
+  Logger,
   Param,
   Patch,
   Post,
@@ -11,6 +14,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Cache } from 'cache-manager';
 import { Group, Groups, GroupsGuard } from 'src/guards';
 import { CreateUserDto, QueryUserDto, UpdateUserDto } from './dto';
 import { UsersService } from './users.service';
@@ -21,16 +25,23 @@ import { UsersService } from './users.service';
 @UseGuards(GroupsGuard)
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  private readonly logger = new Logger(UsersController.name);
+
+  constructor(
+    @Inject(CACHE_MANAGER)
+    private readonly cache: Cache,
+    private readonly usersService: UsersService
+  ) {}
 
   @Post()
-  create(@Body() body: CreateUserDto) {
+  async create(@Body() body: CreateUserDto) {
+    await this.cache.set('1', body);
     return this.usersService.create(body);
   }
 
   @Groups(Group.admin)
   @Get()
-  findAll(@Query() query: QueryUserDto) {
+  async findAll(@Query() query: QueryUserDto) {
     query.age && console.log(typeof query.age);
     return this.usersService.findAll();
   }
@@ -41,8 +52,10 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const val = await this.cache.get(id);
+    this.logger.verbose({ findOne: { cache: val } });
+    return val || this.usersService.findOne(id);
   }
 
   @Patch(':id')

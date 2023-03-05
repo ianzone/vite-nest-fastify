@@ -1,6 +1,12 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  CacheInterceptor,
+  CacheModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthenticationMiddleware } from 'src/middlewares';
 import { RoutesModule } from 'src/routes';
 import { ServicesModule } from 'src/services';
@@ -11,6 +17,11 @@ import configs from './configs';
 
 @Module({
   imports: [
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 29, // seconds, max apigateway timeout
+      max: 1000, // max items in cache
+    }),
     ServicesModule,
     RoutesModule,
     ConfigModule.forRoot({
@@ -21,6 +32,10 @@ import configs from './configs';
   ],
   controllers: [AppController],
   providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
     {
       provide: APP_FILTER,
       useClass: AppFilter,
