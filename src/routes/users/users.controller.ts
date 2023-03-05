@@ -21,7 +21,6 @@ import { UsersService } from './users.service';
 
 @ApiTags('Users')
 @ApiBearerAuth()
-@Controller('users')
 @UseGuards(GroupsGuard)
 @Controller('users')
 export class UsersController {

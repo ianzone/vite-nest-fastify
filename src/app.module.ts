@@ -19,7 +19,7 @@ import configs from './configs';
   imports: [
     CacheModule.register({
       isGlobal: true,
-      ttl: 29, // seconds, max apigateway timeout
+      ttl: 29000, // milliseconds, max apigateway timeout
       max: 1000, // max items in cache
     }),
     ServicesModule,
