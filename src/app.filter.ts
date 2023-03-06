@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, HttpException, Logger } from '@nestjs/common';
 import { BaseExceptionFilter, ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { ServerResponse } from 'http';
 import { RequestService } from './services';
 
 // https://docs.nestjs.com/exception-filters#exception-filters
@@ -11,10 +12,13 @@ export class AppFilter extends BaseExceptionFilter {
     super();
   }
   async catch(exception: Error, host: ArgumentsHost) {
-    const req = host.switchToHttp().getRequest<FastifyRequest>();
-    const res = host.switchToHttp().getResponse<FastifyReply>();
+    const obj = host.switchToHttp();
+    const req = obj.getRequest<FastifyRequest>();
+    const res = obj.getResponse<FastifyReply | ServerResponse>();
     const contextId = ContextIdFactory.getByRequest(req);
-    const reqService = await this.moduleRef.resolve(RequestService, contextId);
+    const reqService = await this.moduleRef.resolve(RequestService, contextId, {
+      strict: false,
+    });
     const ctx = {
       Method: req.method,
       Path: req.url,
@@ -37,7 +41,13 @@ export class AppFilter extends BaseExceptionFilter {
       this.logger.error(ctx, exception.stack);
       message = exception.message;
     }
-
-    res.status(statusCode).send({ ...reqService.getLogTrace(), message });
+    if (res instanceof ServerResponse) {
+      // in case of thrown from middlewares
+      res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+      res.write(JSON.stringify({ ...reqService.getLogTrace(), message }));
+      res.end();
+    } else {
+      res.status(statusCode).send({ ...reqService.getLogTrace(), message });
+    }
   }
 }

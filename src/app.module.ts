@@ -45,6 +45,6 @@ import configs from './configs';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthenticationMiddleware).exclude('/').forRoutes('*');
+    consumer.apply(AuthenticationMiddleware).exclude('/').forRoutes('(.*)');
   }
 }

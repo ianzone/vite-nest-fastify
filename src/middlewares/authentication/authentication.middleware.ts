@@ -25,6 +25,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
   ) {}
 
   // in fastify middleware, the req object is the raw node request object
+  // https://www.fastify.io/docs/latest/Reference/Middleware/
   async use(req: IncomingMessage, res: any, next: () => void) {
     this.reqSvc.setLogTrace({
       groupId: 'groupId',
