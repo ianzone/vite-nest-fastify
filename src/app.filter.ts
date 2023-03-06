@@ -34,8 +34,8 @@ export class AppFilter extends BaseExceptionFilter {
     if (exception instanceof HttpException) {
       this.logger.warn(ctx, exception.stack);
       statusCode = exception.getStatus();
-      // @ts-ignore
-      message = exception.getResponse()?.message;
+      const expRes = exception.getResponse() as any;
+      message = expRes.message;
     } else {
       // unexpected errors that need to trigger alerts
       this.logger.error(ctx, exception.stack);
