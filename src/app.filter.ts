@@ -1,19 +1,20 @@
-import { ArgumentsHost, Catch, HttpException, Injectable, Logger, Scope } from '@nestjs/common';
-import { BaseExceptionFilter } from '@nestjs/core';
+import { ArgumentsHost, Catch, HttpException, Logger } from '@nestjs/common';
+import { BaseExceptionFilter, ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { RequestService } from './services';
 
 // https://docs.nestjs.com/exception-filters#exception-filters
-@Injectable({ scope: Scope.REQUEST })
 @Catch()
 export class AppFilter extends BaseExceptionFilter {
   private readonly logger = new Logger(AppFilter.name);
-  constructor(private readonly reqService: RequestService) {
+  constructor(private readonly moduleRef: ModuleRef) {
     super();
   }
-  catch(exception: Error, host: ArgumentsHost) {
+  async catch(exception: Error, host: ArgumentsHost) {
     const req = host.switchToHttp().getRequest<FastifyRequest>();
     const res = host.switchToHttp().getResponse<FastifyReply>();
+    const contextId = ContextIdFactory.getByRequest(req);
+    const reqService = await this.moduleRef.resolve(RequestService, contextId);
     const ctx = {
       Method: req.method,
       Path: req.url,
@@ -21,7 +22,7 @@ export class AppFilter extends BaseExceptionFilter {
       Query: req.query,
       Headers: req.headers,
       Body: req.body,
-      ReqAuxData: this.reqService.getAuxData(),
+      ReqAuxData: reqService.getAuxData(),
     };
 
     let statusCode = 500;
@@ -37,6 +38,6 @@ export class AppFilter extends BaseExceptionFilter {
       message = exception.message;
     }
 
-    res.status(statusCode).send({ ...this.reqService.getLogTrace(), message });
+    res.status(statusCode).send({ ...reqService.getLogTrace(), message });
   }
 }
