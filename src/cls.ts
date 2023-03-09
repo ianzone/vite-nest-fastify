@@ -1,3 +1,8 @@
+export const ClsKeys = {
+  logTrace: 'logTrace',
+  reqAux: 'reqAux',
+};
+
 interface User {
   token: string;
   userPoolId: string;
@@ -10,13 +15,13 @@ interface Tenant {
   thirdPartyKey: string;
 }
 
-export interface Log {
+export interface LogTrace {
   groupId: string;
   streamId: string;
   requestId: string;
 }
 
-export interface ReqAuxData {
+export interface ReqAux {
   user: User;
   tenant: Tenant;
 }

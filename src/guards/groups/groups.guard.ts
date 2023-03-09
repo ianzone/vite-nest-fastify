@@ -1,16 +1,17 @@
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
+import { ClsService } from 'nestjs-cls';
+import { ClsKeys, ReqAux } from 'src/cls';
 import { Configs, Mode } from 'src/configs';
-import { RequestService } from 'src/services';
 import { Group, GROUPS_KEY } from './groups.decorator';
 
 @Injectable()
 export class GroupsGuard implements CanActivate {
   private readonly logger = new Logger(GroupsGuard.name);
   constructor(
+    private readonly cls: ClsService,
     private readonly reflector: Reflector,
-    private readonly reqSvc: RequestService,
     private readonly configs: ConfigService<Configs>
   ) {}
 
@@ -21,7 +22,7 @@ export class GroupsGuard implements CanActivate {
     this.logger.verbose({ groupsSetInController });
 
     if (groupsSetInController?.length) {
-      const req = this.reqSvc.getAuxData();
+      const req = this.cls.get<ReqAux>(ClsKeys.reqAux);
       const user = req.user;
       const tenant = req.tenant;
       console.log(user);

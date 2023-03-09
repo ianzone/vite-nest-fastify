@@ -15,6 +15,8 @@ specifiers:
   class-transformer: ^0.5.1
   class-validator: ^0.14.0
   fastify: ^4.14.1
+  nestjs-cls: ^3.2.1
+  rxjs: ^7.8.0
   vite: ^4.1.4
   vite-plugin-node: ^3.0.2
   vitest: ^0.29.2
@@ -30,6 +32,8 @@ dependencies:
   class-transformer: 0.5.1
   class-validator: 0.14.0
   fastify: 4.14.1
+  nestjs-cls: 3.2.1_77foi4w27ghy47yutmnzv7krjy
+  rxjs: 7.8.0
 
 devDependencies:
   '@compodoc/compodoc': 1.1.19
@@ -2397,7 +2401,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001462
-      electron-to-chromium: 1.4.324
+      electron-to-chromium: 1.4.325
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: true
@@ -2872,8 +2876,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: true
 
-  /electron-to-chromium/1.4.324:
-    resolution: {integrity: sha512-m+eBs/kh3TXnCuqDF6aHLLRwLK2U471JAbZ1KYigf0TM96fZglxv0/ZFBvyIxnLKsIWUoDiVnHTA2mhYz1fqdA==}
+  /electron-to-chromium/1.4.325:
+    resolution: {integrity: sha512-K1C03NT4I7BuzsRdCU5RWkgZxtswnKDYM6/eMhkEXqKu4e5T+ck610x3FPzu1y7HVFSiQKZqP16gnJzPpji1TQ==}
     dev: true
 
   /emoji-regex/9.2.2:
@@ -3950,6 +3954,17 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /nestjs-cls/3.2.1_77foi4w27ghy47yutmnzv7krjy:
+    resolution: {integrity: sha512-wvtlrjiFHGy7CgqxwE2vHaPhBV5SIxJsYmV31twG+NhP7HVb3MJdp7RC+NdP/ckca6ys68JV23ExK355EGnprw==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      '@nestjs/common': '> 7.0.0 < 10'
+      '@nestjs/core': '> 7.0.0 < 10'
+    dependencies:
+      '@nestjs/common': 9.3.9_nza3ix4qrkhc5teka4arycjvca
+      '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
+    dev: false
 
   /next-tick/1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}

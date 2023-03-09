@@ -9,17 +9,19 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Cache } from 'cache-manager';
 import { IncomingMessage } from 'http';
+import { ClsService } from 'nestjs-cls';
+import { ClsKeys, LogTrace, ReqAux } from 'src/cls';
 import { Configs, Mode } from 'src/configs';
-import { RequestService, TenantsService } from 'src/services';
+import { TenantsService } from 'src/services';
 
 @Injectable()
 export class AuthenticationMiddleware implements NestMiddleware {
   private readonly logger = new Logger(AuthenticationMiddleware.name);
 
   constructor(
+    private readonly cls: ClsService,
     @Inject(CACHE_MANAGER)
     private readonly cache: Cache,
-    private readonly reqSvc: RequestService,
     private readonly tenants: TenantsService,
     private readonly configs: ConfigService<Configs>
   ) {}
@@ -27,7 +29,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
   // in fastify middleware, the req object is the raw node request object
   // https://www.fastify.io/docs/latest/Reference/Middleware/
   async use(req: IncomingMessage, res: any, next: () => void) {
-    this.reqSvc.setLogTrace({
+    this.cls.set<LogTrace>(ClsKeys.logTrace, {
       groupId: 'groupId',
       streamId: 'streamId',
       requestId: 'requestId',
@@ -42,7 +44,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
 
       const auxDataCache = (await this.cache.get(jwt)) as any;
       if (auxDataCache) {
-        this.reqSvc.setAuxData(auxDataCache);
+        this.cls.set<ReqAux>(ClsKeys.reqAux, auxDataCache);
         return next();
       }
 
@@ -65,7 +67,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
       };
 
       this.cache.set(jwt, auxData);
-      this.reqSvc.setAuxData(auxData);
+      this.cls.set<ReqAux>(ClsKeys.reqAux, auxData);
       return next();
     } catch (err) {
       throw new UnauthorizedException(err.message);

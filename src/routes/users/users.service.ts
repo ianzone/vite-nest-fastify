@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { sleep } from 'src/utils';
+import { delay } from 'src/utils';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -10,7 +10,7 @@ export class UsersService {
   }
 
   async findAll() {
-    await sleep(2000);
+    await delay();
     return `This action returns all users`;
   }
 
