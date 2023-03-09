@@ -2,7 +2,6 @@ import { INestApplication, ValidationPipe, VersioningType } from '@nestjs/common
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ClsMiddleware } from 'nestjs-cls';
 import { AppModule } from './app.module';
 
 function setupVersioning(app: INestApplication) {
@@ -40,12 +39,6 @@ function setupSwagger(app: INestApplication) {
 
 export async function createApp() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
-  app.use(
-    new ClsMiddleware({
-      // ANCHOR[id=mount-ClsMiddleware]  https://github.com/Papooch/nestjs-cls#manually-mounting-the-middleware
-      /* useEnterWith: true */
-    }).use
-  );
 
   setupVersioning(app);
   setupValidation(app);

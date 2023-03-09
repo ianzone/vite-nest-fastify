@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { ClsModule } from 'nestjs-cls';
+import { ClsMiddleware, ClsModule } from 'nestjs-cls';
 import { AuthenticationMiddleware } from 'src/middlewares';
 import { RoutesModule } from 'src/routes';
 import { ServicesModule } from 'src/services';
@@ -18,10 +18,9 @@ import configs from './configs';
 
 @Module({
   imports: [
-    // Register the ClsModule, the ClsMiddleware is mounted in createApp.ts
     ClsModule.forRoot({
       global: true,
-    }), // LINK src/createApp.ts#mount-ClsMiddleware
+    }),
     CacheModule.register({
       isGlobal: true,
       ttl: 30000, // milliseconds, max apigateway timeout
@@ -54,6 +53,7 @@ import configs from './configs';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ClsMiddleware).forRoutes('(.*)');
     consumer.apply(AuthenticationMiddleware).exclude('/').forRoutes('(.*)');
   }
 }
